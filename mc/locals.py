@@ -1,10 +1,10 @@
 import requests
 from bs4 import BeautifulSoup
+
 URL = "https://www.craigslist.org/about/sites"
 
 
-
-def get_city_links(state = 'Arizona'):
+def get_city_links(state="Arizona"):
     r = requests.get(URL)
 
     # parse html
@@ -20,4 +20,4 @@ def get_city_links(state = 'Arizona'):
         # get all links in state
         state_links = state.find_next_sibling().find_all("a")
         for state_link in state_links:
-            print(state_link.get('href'))
+            print(state_link.get("href"))

@@ -1,0 +1,53 @@
+abilene
+amarillo
+boulder
+clovis-portales
+colo springs
+denver
+eastern co
+el paso
+farmington
+flagstaff
+fort collins
+high rockies
+las cruces
+lubbock
+mohave co
+northwest ks
+odessa
+phoenix
+prescott
+provo
+pueblo
+roswell
+san angelo
+santa fe
+show low
+sierra vista
+southwest ks
+st george
+tucson
+western slope
+atlanta
+austin
+boston
+chicago
+dallas
+denver
+detroit
+houston
+las vegas
+los angeles
+miami
+minneapolis
+new york
+orange co
+philadelphia
+phoenix
+portland
+raleigh
+sacramento
+san diego
+seattle
+sf bayarea
+wash dc

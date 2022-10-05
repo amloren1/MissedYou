@@ -5,6 +5,7 @@ URL = "https://www.craigslist.org/about/sites"
 
 
 def get_city_links(state="Arizona"):
+    
     r = requests.get(URL)
 
     # parse html

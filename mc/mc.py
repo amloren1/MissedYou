@@ -122,17 +122,15 @@ class Scrapper:
                     # print link text and url
                     print(link_text)
                     print(link_url)
-                    # breakpoint()
-                    # store body text to file next line
 
-                    # use asyncio to append the
-                    # body text to the file
-                    # store text asynchronously
 
-                    # with open('res.txt', 'a') as f:
-                    #     f.write(get_page_main_text_body(link_url))
-                    #     f.write('\n')
-                    #     f.close()
+                    # skip current and further links if not the correct base url
+                    if locale not in link_url:
+                        break
+
+
+                    
+                    
 
                     print(self._get_page_main_text_body(link_url))
                     texts.append((link_text, self._get_page_main_text_body(link_url)))
@@ -161,6 +159,7 @@ class Scrapper:
                     #     for text in texts:
                     #         f.write(f"\n{text[0], text[1]},")
                     #     f.close()
+                    self.write_lines_to_file(texts)
                     texts = None
                     break
 

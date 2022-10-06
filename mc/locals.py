@@ -23,8 +23,8 @@ def get_city_links(locals: list =["Arizona"]):
             state_links = state.find_next_sibling().find_all("a")
 
             for state_link in state_links:
-                print(state_link.get("href"))
-                print(state_link.text)
+                # print(state_link.get("href"))
+                # print(state_link.text)
                 city_links.append(state_link.get("href"))
     return city_links
 

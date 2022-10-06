@@ -4,12 +4,16 @@ Simple webscraper using beautiful soup
 
 """
 # Import modules
-import requests
+
+
 from bs4 import BeautifulSoup
+import os
+import requests
+import sys
 
 import time
 
-from const import US_STATES
+from const import US_STATES, VPN
 from locals import get_city_links
 
 # # read in craigs_list.txt
@@ -30,8 +34,7 @@ class Scrapper:
         self.city_links = get_city_links(locations)
 
 
-    @staticmethod
-    def _get_page_main_text_body(url):
+    def _get_page_main_text_body(self, url):
         """
         Get the main text body of the page
         """
@@ -43,18 +46,54 @@ class Scrapper:
         main_text_body = soup.find(id="postingbody")
 
         # get only the text
-        main_text_body = main_text_body.text
+        try:
+            main_text_body = main_text_body.text
+            main_text_body = main_text_body.split("\n")[-2]
+        except AttributeError:
+            if soup.find("h2"):
+                if 'flagged' in soup.find("h2").text:
+                    main_text_body = "Post Flagged"
+            elif soup.find("title"):
+                if soup.find("title").text == 'blocked':
+                    main_text_body = "Post Deleted"
+                    print("BLOCKED: Changing VPN connection")
+                    if VPN:
+                        os.system("protonvpn-cli c -r")
+                        time.sleep(2)
+                        main_text_body = self._get_page_main_text_body(url)
+
+                    else:
+                        sys.exit()
+            else:
+                print("\n\n Not sure what happened here. Bye")
+                sys.exit()
+        
         # Return the main text body
-        return main_text_body.split("\n")[-2]
+        return main_text_body
 
     def get_location_urls(self):
         get_city_links(self.locations)
         pass
 
+    def write_line_to_file(self, line):
+        """
+        Write a line to a file
+        """
+        with open("res.txt", "a") as f:
+                        f.write(f"\n{line[0]}\t|\t{line[1]}")
+                        f.close()
+
+    def write_lines_to_file(self, lines: list):
+        """
+        Write a line to a file
+        """
+        with open("res.txt", "a") as f:
+            for line in lines:
+              f.write(f"\n{line[0]}\t|\t{line[1]}")
+        f.close()
 
     def get_posts(self):
         for locale in self.city_links:
-            breakpoint()
             # add base to url path
             url = self.url_path.format(locale)
             print(url)
@@ -95,8 +134,8 @@ class Scrapper:
                     #     f.write('\n')
                     #     f.close()
 
-                    print(get_page_main_text_body(link_url))
-                    texts.append(get_page_main_text_body(link_url))
+                    print(self._get_page_main_text_body(link_url))
+                    texts.append((link_text, self._get_page_main_text_body(link_url)))
                     # request link url
                     # r = requests.get(link_url)
                     # parse html and return the main text
@@ -109,6 +148,8 @@ class Scrapper:
 
                     print("")
                     # time.sleep(5)
+                    # self.write_line_to_file(texts[-1])
+                    # breakpoint()
 
                 # if next page link exists
                 if next_page_link:
@@ -116,8 +157,11 @@ class Scrapper:
                     base_url = next_page_link
                 else:
                     # exit
-                    with open("res.txt", "a") as f:
-                        f.write("\n\n".join(texts))
-                        f.close()
+                    # with open("res.txt", "a") as f:
+                    #     for text in texts:
+                    #         f.write(f"\n{text[0], text[1]},")
+                    #     f.close()
                     texts = None
                     break
+
+        

@@ -28,5 +28,3 @@ def get_city_links(locals: list =["Arizona"]):
                 city_links.append(state_link.get("href"))
     return city_links
 
-
-get_city_links()

@@ -56,6 +56,6 @@ US_STATES = [
 SITES_URL = "https://www.craigslist.org/about/sites"
 
 
-
+VPN = "proton"
 
     

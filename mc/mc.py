@@ -24,15 +24,13 @@ from locals import get_city_links
 
 
 class Scrapper:
-
-    def __init__(self, locations = US_STATES) -> None:
+    def __init__(self, locations=US_STATES) -> None:
         pass
 
         # craigslist missed connections base url. format
         self.url_path = "{}/search/mis"
         self.locations = locations
         self.city_links = get_city_links(locations)
-
 
     def _get_page_main_text_body(self, url):
         """
@@ -51,10 +49,10 @@ class Scrapper:
             main_text_body = main_text_body.split("\n")[-2]
         except AttributeError:
             if soup.find("h2"):
-                if 'flagged' in soup.find("h2").text:
+                if "flagged" in soup.find("h2").text:
                     main_text_body = "Post Flagged"
             elif soup.find("title"):
-                if soup.find("title").text == 'blocked':
+                if soup.find("title").text == "blocked":
                     main_text_body = "Post Deleted"
                     print("BLOCKED: Changing VPN connection")
                     if VPN:
@@ -67,7 +65,7 @@ class Scrapper:
             else:
                 print("\n\n Not sure what happened here. Bye")
                 sys.exit()
-        
+
         # Return the main text body
         return main_text_body
 
@@ -80,8 +78,8 @@ class Scrapper:
         Write a line to a file
         """
         with open("res.txt", "a") as f:
-                        f.write(f"\n{line[0]}\t|\t{line[1]}")
-                        f.close()
+            f.write(f"\n{line[0]}\t|\t{line[1]}")
+            f.close()
 
     def write_lines_to_file(self, lines: list):
         """
@@ -89,7 +87,7 @@ class Scrapper:
         """
         with open("res.txt", "a") as f:
             for line in lines:
-              f.write(f"\n{line[0]}\t|\t{line[1]}")
+                f.write(f"\n{line[0]}\t|\t{line[1]}")
         f.close()
 
     def get_posts(self):
@@ -123,44 +121,20 @@ class Scrapper:
                     print(link_text)
                     print(link_url)
 
-
                     # skip current and further links if not the correct base url
                     if locale not in link_url:
                         break
 
-
-                    
-                    
-
                     print(self._get_page_main_text_body(link_url))
                     texts.append((link_text, self._get_page_main_text_body(link_url)))
-                    # request link url
-                    # r = requests.get(link_url)
-                    # parse html and return the main text
-
-                    # # for p_tag in p_tags:
-                    # #     # get p tag text
-                    # #     p_tag_text = p_tag.text
-                    # #     # print p tag text
-                    # #     print(p_tag_text)
 
                     print("")
-                    # time.sleep(5)
-                    # self.write_line_to_file(texts[-1])
-                    # breakpoint()
 
                 # if next page link exists
                 if next_page_link:
                     # set base url to next page link
                     base_url = next_page_link
                 else:
-                    # exit
-                    # with open("res.txt", "a") as f:
-                    #     for text in texts:
-                    #         f.write(f"\n{text[0], text[1]},")
-                    #     f.close()
                     self.write_lines_to_file(texts)
                     texts = None
                     break
-
-        

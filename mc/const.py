@@ -1,4 +1,3 @@
-
 # All us states capitalized
 US_STATES = [
     "Alabama",
@@ -57,5 +56,3 @@ SITES_URL = "https://www.craigslist.org/about/sites"
 
 
 VPN = "proton"
-
-    

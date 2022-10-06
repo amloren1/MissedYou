@@ -4,8 +4,8 @@ from bs4 import BeautifulSoup
 from const import SITES_URL
 
 
-def get_city_links(locals: list =["Arizona"]):
-    
+def get_city_links(locals: list = ["Arizona"]):
+
     r = requests.get(SITES_URL)
 
     # parse html
@@ -27,4 +27,3 @@ def get_city_links(locals: list =["Arizona"]):
                 # print(state_link.text)
                 city_links.append(state_link.get("href"))
     return city_links
-

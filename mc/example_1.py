@@ -1,5 +1,3 @@
-
-
 from mc import Scrapper
 
 
